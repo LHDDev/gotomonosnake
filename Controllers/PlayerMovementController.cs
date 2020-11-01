@@ -9,7 +9,7 @@ namespace lf.common.player{
         private const string INTPUT_MOVE_UP = "move_up";
         private const string INTPUT_MOVE_DOWN = "move_down";
 
-        private Vector2 _movementVector = Vector2.Zero;
+        private Vector2 _movementVector = Vector2.Right;
         public Vector2 GetMovementVector(){
             if(Input.IsActionPressed(INTPUT_MOVE_UP)){
                 _movementVector = new Vector2(0,-1);
@@ -23,7 +23,6 @@ namespace lf.common.player{
             else if(Input.IsActionPressed(INTPUT_MOVE_LEFT)){
                 _movementVector = new Vector2(-1,0);
             }
-            GD.Print(_movementVector);
             return _movementVector;
         }
 
@@ -41,6 +40,21 @@ namespace lf.common.player{
                 return new Vector2(player.Position.x,player.GetViewportRect().Size.y);
             }
             return player.Position;
+        }
+        public static Vector2 Repositionning(Area2D player){
+            if(player.GlobalPosition.x >= player.GetViewportRect().Size.x){
+                return new Vector2(0,player.GlobalPosition.y);
+            }
+            if(player.GlobalPosition.x <= 0){
+                return new Vector2(player.GetViewportRect().Size.x,player.GlobalPosition.y);
+            }
+            if(player.GlobalPosition.y >= player.GetViewportRect().Size.y){
+                return new Vector2(player.GlobalPosition.x,0);
+            }
+            if(player.GlobalPosition.y <= 0){
+                return new Vector2(player.GlobalPosition.x,player.GetViewportRect().Size.y);
+            }
+            return player.GlobalPosition;
         }
     }
 }
